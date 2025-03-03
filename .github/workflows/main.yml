@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]  # Or master
+  pull_request:
+    branches: [ main ]  # Or master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+      - name: Install Poetry
+        run: pip install poetry
+      - name: Configure Poetry
+        run: |
+          poetry config --list
+          poetry config pypi-token.testpypi ${{ secrets.TEST_PYPI_TOKEN }}
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Run tests
+        run: python -m unittest tests/test_main.py
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'  # Or master
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+      - name: Install Poetry
+        run: pip install poetry
+      - name: Configure Poetry
+        run: |
+          poetry config --list
+          poetry config pypi-token.testpypi ${{ secrets.TEST_PYPI_TOKEN }}
+      - name: Build package
+        run: poetry build
+      - name: Publish package
+        run: poetry publish -r testpypi
