@@ -31,11 +31,24 @@ jobs:
       - name: Run tests for help feature
         run: pytest tests/test_help.py --capture=no -v
 
-
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
-      # Deployment steps
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+      - name: Install Poetry
+        run: pip install poetry
+      - name: Configure Poetry
+        run: |
+          poetry config --list
+          poetry config pypi-token.testpypi ${{ secrets.TEST_PYPI_TOKEN }}
+          poetry config repositories.testpypi https://test.pypi.org/legacy/
+      - name: Build package
+        run: poetry build
+      - name: Publish package
+        run: poetry publish -r testpypi
