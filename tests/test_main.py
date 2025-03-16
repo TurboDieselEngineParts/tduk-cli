@@ -8,12 +8,12 @@ def context():
     return {}
 
 
-@scenario("/Users/martinhewing/Downloads/Python_Code/tduk-cli/features/hello.feature", "Running the hello command with a name")
+@scenario("/features/hello.feature", "Running the hello command with a name")
 def test_hello_with_name(context):
     pass
 
 
-@scenario("/Users/martinhewing/Downloads/Python_Code/tduk-cli/features/hello.feature", "Running the hello command with default")
+@scenario("/features/hello.feature", "Running the hello command with default")
 def test_hello_without_name(context):
     pass
 
