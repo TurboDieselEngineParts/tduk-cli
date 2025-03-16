@@ -23,9 +23,7 @@ jobs:
       - name: Install pytest, pytest-bdd, Black, and flake8
         run: pip install pytest pytest-bdd black flake8
       - name: Run Black checks
-        run: |
-          black --check .
-          exit 0
+        run: black .
       - name: Run flake8 checks
         run: flake8 .
       - name: Run tests for onboard feature
