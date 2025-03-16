@@ -17,6 +17,7 @@ def configure_git():
 
 def checklist_dry_run():
     return (
+        "Dry run mode enabled. No changes will be made.\n"
         "Checklist:\n"
         "- Task 1\n"
         "- Task 2\n"
@@ -30,7 +31,6 @@ def onboard_command(args):
         if args.task == "git":
             print(configure_git())
         elif args.task == "checklist" and args.dry_run:
-            print("Dry run mode enabled. No changes will be made.")
             print(checklist_dry_run())
         else:
             print(f"Unknown task: {args.task}")
