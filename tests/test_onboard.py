@@ -70,6 +70,18 @@ def i_run_the_onboard_command_with_dry_run_flag(context):
     context["output"] = result.stdout.strip()
     print(f"CLI Output: '{context['output']}'")
 
+@then('the CLI should run the onboarding task "git"')
+def cli_should_run_onboarding_task(context):
+    expected_output = (
+        "Configuring Git...\n"
+        "Username: <username>\n"
+        "Email: <email>\n"
+        "Default Branch: main\n"
+        "Commit Template: <template>"
+    )
+    assert expected_output in context["output"]
+
+
 @then("the CLI should configure Git with username, email, default branch name, and commit template")
 def cli_should_configure_git(context):
     expected_output = (
@@ -81,12 +93,28 @@ def cli_should_configure_git(context):
     )
     assert expected_output in context["output"]
 
+
+@then('the CLI should configure the dev tool "git"')
+def cli_should_configure_dev_tool(context):
+    expected_output = (
+        "Configuring Git...\n"
+        "Username: <username>\n"
+        "Email: <email>\n"
+        "Default Branch: main\n"
+        "Commit Template: <template>"
+    )
+    assert expected_output in context["output"]
+
+
 @then("the CLI should print checklist contents to stdout without creating any files")
 def cli_should_print_checklist_contents(context):
     expected_output = (
+        "Dry run mode enabled. No changes will be made.\n"
         "Checklist:\n"
         "- Task 1\n"
         "- Task 2\n"
-        "- Task 3\n"
+        "- Task 3"
     )
-    assert expected_output in context["output"]
+    assert expected_output.rstrip() in context["output"].rstrip()
+
+
