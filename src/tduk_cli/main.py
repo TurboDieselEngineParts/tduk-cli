@@ -1,11 +1,5 @@
 import argparse
 
-def hello_command(args):
-    if args.name:
-        print(f"Hello {args.name}!")
-    else:
-        print("Hello World!")
-
 def configure_git():
     return (
         "Configuring Git...\n"
@@ -16,13 +10,14 @@ def configure_git():
     )
 
 def checklist_dry_run():
-    return (
+    actual_output = (
         "Dry run mode enabled. No changes will be made.\n"
         "Checklist:\n"
         "- Task 1\n"
         "- Task 2\n"
-        "- Task 3\n"
+        "- Task 3"
     )
+    return actual_output
 
 def onboard_command(args):
     if args.all:
@@ -42,13 +37,10 @@ def onboard_command(args):
     else:
         print("No valid arguments provided for onboard command.")
 
+
 def main():
     parser = argparse.ArgumentParser(prog="tduk-cli")
     subparsers = parser.add_subparsers(dest="command")
-
-    # Add hello subcommand
-    hello_parser = subparsers.add_parser("hello", help="Print a greeting")
-    hello_parser.add_argument("--name", type=str, help="Name to include in the greeting")
 
     # Add onboard subcommand
     onboard_parser = subparsers.add_parser("onboard", help="Run onboarding tasks")
@@ -59,12 +51,11 @@ def main():
 
     # Parse arguments and call appropriate function
     args = parser.parse_args()
-    if args.command == "hello":
-        hello_command(args)
-    elif args.command == "onboard":
+    if args.command == "onboard":
         onboard_command(args)
     else:
         parser.print_help()
 
 if __name__ == "__main__":
     main()
+
