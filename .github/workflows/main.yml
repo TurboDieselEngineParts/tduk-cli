@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]  # Or master
+    branches: [ main ]
   pull_request:
-    branches: [ main ]  # Or master
+    branches: [ main ]
 
 jobs:
   build:
@@ -18,39 +18,15 @@ jobs:
           python-version: "3.9"
       - name: Install Poetry
         run: pip install poetry
-      - name: Configure Poetry
-        run: |
-          poetry config --list
-          poetry config pypi-token.testpypi ${{ secrets.TEST_PYPI_TOKEN }}
-
       - name: Install dependencies
         run: poetry install
-
       - name: Install pytest and pytest-bdd
         run: pip install pytest pytest-bdd
-
-      - name: Run pytest-bdd tests
-        run: pytest tests/
+      - name: Run tests for hello feature
+        run: pytest tests/test_main.py --capture=no -v
+      - name: Run tests for onboard feature
+        run: pytest tests/test_onboard.py --capture=no -v
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'  # Or master
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.9"
-      - name: Install Poetry
-        run: pip install poetry
-      - name: Configure Poetry
-        run: |
-          poetry config --list
-          poetry config pypi-token.testpypi ${{ secrets.TEST_PYPI_TOKEN }}
-          poetry config repositories.testpypi https://test.pypi.org/legacy/
-      - name: Build package
-        run: poetry build
-      - name: Publish package
-        run: poetry publish -r testpypi
