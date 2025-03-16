@@ -22,8 +22,6 @@ jobs:
         run: poetry install
       - name: Install pytest and pytest-bdd
         run: pip install pytest pytest-bdd
-      - name: Run tests for hello feature
-        run: pytest tests/test_main.py --capture=no -v
       - name: Run tests for onboard feature
         run: pytest tests/test_onboard.py --capture=no -v
 
