@@ -8,12 +8,12 @@ def context():
     return {}
 
 
-@scenario("/features/hello.feature", "Running the hello command with a name")
+@scenario("hello.feature", "Running the hello command with a name")
 def test_hello_with_name(context):
     pass
 
 
-@scenario("/features/hello.feature", "Running the hello command with default")
+@scenario("hello.feature", "Running the hello command with default")
 def test_hello_without_name(context):
     pass
 
