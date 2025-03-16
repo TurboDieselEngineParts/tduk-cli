@@ -1,6 +1,6 @@
 [project]
 name = "tduk-cli"
-version = "0.1.2"
+version = "0.1.3"
 description = ""
 authors = [
     {name = "Martin Hewing",email = "martinhewing777@gmail.com"}
