@@ -25,3 +25,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 tduk-cli = "tduk_cli.main:main"
 
+[tool.black]
+line_length = 88
+target_version = ['py38']
+
+

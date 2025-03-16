@@ -1,4 +1,11 @@
 import argparse
+import logging
+
+# Set up logging
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 
 def configure_git():
     return (
@@ -9,6 +16,7 @@ def configure_git():
         "Commit Template: <template>"
     )
 
+
 def checklist_dry_run():
     actual_output = (
         "Dry run mode enabled. No changes will be made.\n"
@@ -18,6 +26,7 @@ def checklist_dry_run():
         "- Task 3"
     )
     return actual_output
+
 
 def onboard_command(args):
     if args.all:
@@ -39,15 +48,39 @@ def onboard_command(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="tduk-cli")
+    logging.info("Starting CLI application.")
+
+    parser = argparse.ArgumentParser(
+        prog="tduk-cli", description="A CLI tool for onboarding tasks."
+    )
     subparsers = parser.add_subparsers(dest="command")
 
     # Add onboard subcommand
-    onboard_parser = subparsers.add_parser("onboard", help="Run onboarding tasks")
-    onboard_parser.add_argument("--all", action="store_true", help="Run all onboarding tasks")
-    onboard_parser.add_argument("--task", type=str, help="Run a specific onboarding task")
-    onboard_parser.add_argument("--configure", type=str, help="Configure a specific dev tool")
-    onboard_parser.add_argument("--dry-run", action="store_true", help="Run in dry-run mode")
+    onboard_parser = subparsers.add_parser(
+        "onboard",
+        help="Run onboarding tasks",
+        description="This command automates various onboarding tasks.",
+    )
+    onboard_parser.add_argument(
+        "--all",
+        action="store_true",
+        help="Run all onboarding tasks",
+    )
+    onboard_parser.add_argument(
+        "--task",
+        type=str,
+        help="Run a specific onboarding task (e.g., git, checklist)",
+    )
+    onboard_parser.add_argument(
+        "--configure",
+        type=str,
+        help="Configure a specific dev tool (e.g., git)",
+    )
+    onboard_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Run in dry-run mode without making changes",
+    )
 
     # Parse arguments and call appropriate function
     args = parser.parse_args()
@@ -56,6 +89,8 @@ def main():
     else:
         parser.print_help()
 
+    logging.info("CLI application finished running.")
+
+
 if __name__ == "__main__":
     main()
-
